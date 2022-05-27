@@ -39,9 +39,6 @@ public class Main {
         DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
         defaultTerminalFactory.setInitialTerminalSize(new TerminalSize(100, 100));
         Terminal terminal = defaultTerminalFactory.createTerminal();
-//        testRegularChessGamePosition(terminal);
-//        VirtualChessGame virtualChessGame = new VirtualChessGame(terminal);
-//        virtualChessGame.draw();
         ChessGame chessGame = new ChessGame(terminal);
         chessGame.start();
     }

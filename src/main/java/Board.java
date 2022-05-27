@@ -1,3 +1,7 @@
+// The board class is used as the data structure to store the information of the chessboard
+// in memory. It's primary responsibilities are simply storing the pieces within a two-dimensional
+// array of chess pieces. By default, the board data structure initializes with the default layout
+// of chess.
 public class Board {
 
     private Piece[][] board;
@@ -6,6 +10,7 @@ public class Board {
     private boolean whiteLeftCastle;
 
 
+    // Default constructor, using default chess piece layout
     public Board() {
         bound = new Bound(0, 7, 0, 7);
         board = new Piece[8][8];
@@ -41,6 +46,7 @@ public class Board {
         }
     }
 
+    // Copy constructor of the board class
     public Board(Board board) {
         this.bound = new Bound(board.bound);
         this.board = new Piece[8][8];
@@ -52,6 +58,9 @@ public class Board {
             }
         }
     }
+
+    // Setters and getters that are meant as shorthands whenever
+    // a particular square on the board is needed to be set to a piece
 
     public Bound bound() {
         return bound;

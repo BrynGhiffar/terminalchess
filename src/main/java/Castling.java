@@ -1,14 +1,20 @@
+// The castling class is another utility class that stores the state of the board.
+// Specifically the castling class keeps track whether a particular side of the board
+// has castled. It also provides some functions to help check if castling is possible
 public class Castling {
     private boolean hasLeftRookMoved;
     private boolean hasRightRookMoved;
     private boolean hasKingMoved;
 
+    // These are initially set to false. Since the rook and king at the start of the game
+    // have not moved.
     public Castling() {
         hasLeftRookMoved = false;
         hasRightRookMoved = false;
         hasKingMoved = false;
     }
 
+    // Functions that help check if castling is possible
     public boolean leftSidePossible() {
         return !hasKingMoved() && !hasLeftRookMoved();
     }
@@ -17,6 +23,7 @@ public class Castling {
         return !hasKingMoved() && !hasRightRookMoved();
     }
 
+    // Setters and getters
     public boolean hasLeftRookMoved() {
         return hasLeftRookMoved;
     }

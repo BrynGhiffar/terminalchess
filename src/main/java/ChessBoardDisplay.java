@@ -4,6 +4,11 @@ import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
 
+
+// The ChessBoardDisplay class is a core class that takes care of displaying the characters
+// and highlighting the correct squares for the pieces to move. It is a class that wraps around
+// the lanterna terminal api. Methods that work towards displaying the chessboard in the terminal
+// are written in this class.
 public class ChessBoardDisplay {
 
     private Terminal terminal;
@@ -19,6 +24,7 @@ public class ChessBoardDisplay {
         return (column + row) % 2 == 1;
     }
 
+    // Displays the board described in The Figure class on the terminal screen
     public void putBoard() throws IOException, InterruptedException {
         for (int i = 0; i < Figure.BOARD.length; i++) {
             terminal.setCursorPosition(boardStart.getColumn(), boardStart.getRow() + i);
@@ -27,6 +33,8 @@ public class ChessBoardDisplay {
         terminal.flush();
     }
 
+    // Translating the position of the board into a cell on the terminal,
+    // signifying where the program should start to draw a particular piec.
     public TerminalPosition getStartSquare(int column, int row) {
         // given a position in the board returns the position corresponding
         // to the terminal character position
@@ -36,7 +44,7 @@ public class ChessBoardDisplay {
         );
     }
 
-    // could be an overloaded version of putPiece
+    // Highlights a particular square on the drawn board.
     public void putHighlightAt(int column, int row, TextColor color, Piece piece) throws IOException {
         terminal.setBackgroundColor(color);
         if (piece != null) {
@@ -48,6 +56,8 @@ public class ChessBoardDisplay {
 
     }
 
+    // Draws a piece in a given column or row on the terminal, with the object string
+    // figure as the argument
     public void putPiece(String[] PIECE_CONTENT, int column, int row) throws IOException {
         String[] piece = PIECE_CONTENT.clone();
         TerminalPosition location = getStartSquare(column, row);
@@ -65,6 +75,7 @@ public class ChessBoardDisplay {
         terminal.flush();
     }
 
+    // Utility methods based on putPiece that place a specified piece on the board
     public void putWhiteKing(int column, int row) throws IOException {
         putPiece(Figure.WHITE_KING, column, row);
     }
