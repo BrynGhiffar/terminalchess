@@ -226,7 +226,17 @@ public class VirtualChessGame {
                         blackCastling.setKingMoved(false);
                 }
 
+                // First rook move undo
                 if (lastMove.isFirstRookMove()) {
+                    if (movedPiece.isWhite() && lastMove.getFrom().atFirstColumn()) {
+                        whiteCastling.setLeftRookMoved(false);
+                    } else if (movedPiece.isWhite() && lastMove.getFrom().atLastColumn()) {
+                        whiteCastling.setRightRookMoved(false);
+                    } else if (movedPiece.isBlack() && lastMove.getFrom().atFirstColumn()) {
+                        blackCastling.setLeftRookMoved(false);
+                    } else if (movedPiece.isBlack() && lastMove.getFrom().atLastColumn()) {
+                        blackCastling.setRightRookMoved(false);
+                    }
                 }
 
                 // Castling undo
@@ -362,6 +372,22 @@ public class VirtualChessGame {
                 moves.addAll(generateDiagonalMoves());
             } else if (piece.isRook()) {
                 moves.addAll(generateHorizontalVerticalMoves());
+                moves = moves.stream().map(move -> {
+                    if (piece.isWhite()) {
+                        if (selectedPiecePosition.atFirstColumn() && !whiteCastling.hasLeftRookMoved()) {
+                            move.setFirstRookMove(true);
+                        } else if (selectedPiecePosition.atLastColumn() && !whiteCastling.hasRightRookMoved()) {
+                            move.setFirstRookMove(true);
+                        }
+                    } else if (piece.isBlack()) {
+                        if (selectedPiecePosition.atFirstColumn() && !blackCastling.hasLeftRookMoved()) {
+                            move.setFirstRookMove(true);
+                        } else if (selectedPiecePosition.atLastColumn() && !whiteCastling.hasRightRookMoved()) {
+                            move.setFirstRookMove(true);
+                        }
+                    }
+                    return move;
+                }).toList();
             } else if (piece.isKnight()) {
                 moves.addAll(generateLMoves());
             } else if (piece.isKing()) {
