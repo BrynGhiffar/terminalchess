@@ -6,9 +6,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class VirtualChessGame {
+public class VirtualChessGame extends ChessBoardDisplay{
 
-    private ChessBoardDisplay chessBoardDisplay;
+//    private ChessBoardDisplay chessBoardDisplay;
     private ChessPosition cursorPosition;
 
     // Selected piece position will not be empty on focus
@@ -21,10 +21,11 @@ public class VirtualChessGame {
     private Castling blackCastling;
 
     public VirtualChessGame(Terminal terminal) {
+        super(terminal);
         // set the initial cursor
         cursorPosition = new ChessPosition(4, 4);
         selectedPiecePosition = cursorPosition.unFocus();
-        this.chessBoardDisplay = new ChessBoardDisplay(terminal);
+//        this.chessBoardDisplay = new ChessBoardDisplay(terminal);
         this.board = new Board();
         this.moveStack = new MoveStack();
         this.whiteCastling = new Castling();
@@ -36,39 +37,39 @@ public class VirtualChessGame {
 
     public void draw() throws IOException, InterruptedException {
         // draw the board based on virtualBoard
-        chessBoardDisplay.putBoard();
+        putBoard();
         ChessPosition origin = new ChessPosition(0, 0);
         for (int i = 0; i < 8; i++)
             for (int j = 0; j < 8; j++) {
                 switch (board.at(origin.addRow(i).addCol(j))) {
-                    case WHITE_KING -> chessBoardDisplay.putWhiteKing(j, i);
-                    case WHITE_QUEEN -> chessBoardDisplay.putWhiteQueen(j, i);
-                    case WHITE_BISHOP -> chessBoardDisplay.putWhiteBishop(j, i);
-                    case WHITE_KNIGHT -> chessBoardDisplay.putWhiteKnight(j, i);
-                    case WHITE_ROOK -> chessBoardDisplay.putWhiteRook(j, i);
-                    case WHITE_PAWN -> chessBoardDisplay.putWhitePawn(j, i);
+                    case WHITE_KING -> putWhiteKing(j, i);
+                    case WHITE_QUEEN ->putWhiteQueen(j, i);
+                    case WHITE_BISHOP -> putWhiteBishop(j, i);
+                    case WHITE_KNIGHT -> putWhiteKnight(j, i);
+                    case WHITE_ROOK -> putWhiteRook(j, i);
+                    case WHITE_PAWN -> putWhitePawn(j, i);
 
-                    case BLACK_KING -> chessBoardDisplay.putBlackKing(j, i);
-                    case BLACK_QUEEN -> chessBoardDisplay.putBlackQueen(j, i);
-                    case BLACK_BISHOP -> chessBoardDisplay.putBlackBishop(j, i);
-                    case BLACK_KNIGHT -> chessBoardDisplay.putBlackKnight(j, i);
-                    case BLACK_ROOK -> chessBoardDisplay.putBlackRook(j, i);
-                    case BLACK_PAWN -> chessBoardDisplay.putBlackPawn(j, i);
+                    case BLACK_KING -> putBlackKing(j, i);
+                    case BLACK_QUEEN -> putBlackQueen(j, i);
+                    case BLACK_BISHOP -> putBlackBishop(j, i);
+                    case BLACK_KNIGHT -> putBlackKnight(j, i);
+                    case BLACK_ROOK -> putBlackRook(j, i);
+                    case BLACK_PAWN -> putBlackPawn(j, i);
                 }
             }
 
         // draw the selected piece
         if (selectedPiecePosition.isFocus()) {
-            chessBoardDisplay.putHighlightAt(selectedPiecePosition.getCol(), selectedPiecePosition.getRow(),
+            putHighlightAt(selectedPiecePosition.getCol(), selectedPiecePosition.getRow(),
                     new TextColor.RGB(0, 255, 0), board.at(selectedPiecePosition));
             for (Move move : moves) {
-                chessBoardDisplay.putHighlightAt(move.getTo().getCol(), move.getTo().getRow(),
+                putHighlightAt(move.getTo().getCol(), move.getTo().getRow(),
                         new TextColor.RGB(0, 0, 255), board.at(move.getTo()));
             }
         }
 
         // Draw the cursor
-        chessBoardDisplay.putHighlightAt(cursorPosition.getCol(), cursorPosition.getRow(),
+        putHighlightAt(cursorPosition.getCol(), cursorPosition.getRow(),
                 new TextColor.RGB(255, 0, 0), board.at(cursorPosition));
 
     }
@@ -269,6 +270,7 @@ public class VirtualChessGame {
                     }
                 }
             }
+            deselectPiece();
         }
     }
 

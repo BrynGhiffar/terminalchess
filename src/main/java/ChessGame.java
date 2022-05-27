@@ -4,21 +4,22 @@ import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
 
-public class ChessGame {
+public class ChessGame extends VirtualChessGame {
 
-    private VirtualChessGame virtualChessGame;
+//    private VirtualChessGame virtualChessGame;
     Terminal terminal;
 
     public ChessGame(Terminal terminal) {
+        super(terminal);
         this.terminal = terminal;
-        this.virtualChessGame = new VirtualChessGame(terminal);
+//        this.virtualChessGame = new VirtualChessGame(terminal);
     }
 
     public void start() throws IOException, InterruptedException {
         boolean quit = false;
         terminal.setCursorVisible(false);
         do {
-            virtualChessGame.draw();
+            draw();
             KeyStroke key = terminal.readInput();
             sendKey(key);
             if (key.getCharacter() != null && key.getCharacter() == 'q') {
@@ -29,22 +30,22 @@ public class ChessGame {
 
     public void sendKey(KeyStroke key) {
         if (key.getKeyType() == KeyType.ArrowUp) {
-            virtualChessGame.moveCursorUp();
+            moveCursorUp();
         } else if (key.getKeyType() == KeyType.ArrowDown) {
-            virtualChessGame.moveCursorDown();
+            moveCursorDown();
         } else if (key.getKeyType() == KeyType.ArrowLeft) {
-            virtualChessGame.moveCursorLeft();
+            moveCursorLeft();
         } else if (key.getKeyType() == KeyType.ArrowRight) {
-            virtualChessGame.moveCursorRight();
+            moveCursorRight();
         } else if (key.getCharacter() != null) {
             if (key.getCharacter() == ' ') {
-                if (virtualChessGame.isSelecting())
-                    virtualChessGame.moveSelectedPiece();
+                if (isSelecting())
+                    moveSelectedPiece();
                 else
-                    virtualChessGame.selectPiece();
+                    selectPiece();
 
             } else if (key.getCharacter() == 'u') {
-                virtualChessGame.undo();
+                undo();
             }
         }
     }

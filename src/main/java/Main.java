@@ -35,11 +35,15 @@ public class Main {
 
 
 
-    public static void main(String... args) throws IOException, InterruptedException {
-        DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
-        defaultTerminalFactory.setInitialTerminalSize(new TerminalSize(100, 100));
-        Terminal terminal = defaultTerminalFactory.createTerminal();
-        ChessGame chessGame = new ChessGame(terminal);
-        chessGame.start();
+    public static void main(String... args) {
+        try {
+            DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
+            defaultTerminalFactory.setInitialTerminalSize(new TerminalSize(100, 100));
+            Terminal terminal = defaultTerminalFactory.createTerminal();
+            ChessGame chessGame = new ChessGame(terminal);
+            chessGame.start();
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e);
+        }
     }
 }
